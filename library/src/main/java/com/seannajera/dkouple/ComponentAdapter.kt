@@ -1,4 +1,4 @@
-package com.seannajera.componentview
+package com.seannajera.dkouple
 
 import android.util.SparseArray
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 class ComponentAdapter(private val componentManager: ComponentManager) :
-    ListAdapter<ComponentModel, ComponentView<*>>(componentDiffer) {
+    ListAdapter<Component, ComponentView<*>>(componentDiffer) {
 
     private val componentLookup: SparseArray<ComponentLayout> = SparseArray()
 
@@ -31,39 +31,39 @@ class ComponentAdapter(private val componentManager: ComponentManager) :
             onBindViewHolder(componentView, position)
         } else {
             @Suppress("UNCHECKED_CAST")
-            val modelState = payloads[0] as Pair<ComponentModel, ComponentModel>
-            componentManager.bindView(modelState.first, modelState.second, componentView)
+            val componentState = payloads[0] as Pair<Component, Component>
+            componentManager.bindView(componentState.first, componentState.second, componentView)
         }
     }
 
-    override fun getItemViewType(position: Int): Int = getItem(position).layout.id
+    override fun getItemViewType(position: Int): Int = getItem(position).layout.layoutId()
 
     override fun onCurrentListChanged(
-        previousComponent: MutableList<ComponentModel>,
-        currentComponent: MutableList<ComponentModel>
+        previousComponent: MutableList<Component>,
+        currentComponent: MutableList<Component>
     ) {
         componentLookup.clear()
         currentList.forEach {
-            componentLookup.put(it.layout.id, it.layout)
+            componentLookup.put(it.layout.layoutId(), it.layout)
         }
     }
 
-    fun setListModels(newModels: ArrayList<out ComponentModel>) = submitList(newModels)
+    fun applyComponents(components: ArrayList<out Component>) = submitList(components)
 
     companion object {
-        val componentDiffer = object : DiffUtil.ItemCallback<ComponentModel>() {
+        val componentDiffer = object : DiffUtil.ItemCallback<Component>() {
             override fun areItemsTheSame(
-                oldModel: ComponentModel,
-                newModel: ComponentModel
+                old: Component,
+                new: Component
             ): Boolean {
-                return oldModel.id == newModel.id
+                return old.id == new.id
             }
 
             override fun areContentsTheSame(
-                oldModel: ComponentModel,
-                newModel: ComponentModel
+                old: Component,
+                new: Component
             ): Boolean {
-                return oldModel.contentSameAs(newModel)
+                return old.contentSameAs(new)
             }
         }
     }

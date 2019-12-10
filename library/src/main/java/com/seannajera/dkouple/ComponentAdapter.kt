@@ -65,6 +65,10 @@ class ComponentAdapter(private val componentManager: ComponentManager) :
             ): Boolean {
                 return old.contentSameAs(new)
             }
+
+            override fun getChangePayload(oldItem: Component, newItem: Component): Any? {
+                return Pair(oldItem, newItem)
+            }
         }
     }
 }

@@ -16,6 +16,6 @@ abstract class ComponentLayout {
     @LayoutRes abstract fun layoutId(): Int
 }
 
-class StaticView<StaticComponent : Component>(view: View) : ComponentView<StaticComponent>(view) {
+open class StaticView<StaticComponent : Component>(view: View) : ComponentView<StaticComponent>(view) {
     override fun onBind(previous: StaticComponent?, current: StaticComponent) {}
 }

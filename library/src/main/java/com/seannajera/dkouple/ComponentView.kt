@@ -9,7 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 // after this ticket is done https://youtrack.jetbrains.com/issue/KT-13495
 abstract class ComponentView<Component : com.seannajera.dkouple.Component>(view: View) :
     RecyclerView.ViewHolder(view) {
-    abstract fun onBind(previous: Component?, current: Component)
+
+    private var cachedComponent: Component? = null
+
+    fun onBind(previous: Component?, current: Component) {
+        onViewUpdate(previous ?: cachedComponent, current)
+        cachedComponent = current
+    }
+
+    abstract fun onViewUpdate(previous: Component?, current: Component)
 }
 
 abstract class ComponentLayout {
@@ -17,5 +25,5 @@ abstract class ComponentLayout {
 }
 
 open class StaticView<StaticComponent : Component>(view: View) : ComponentView<StaticComponent>(view) {
-    override fun onBind(previous: StaticComponent?, current: StaticComponent) {}
+    override fun onViewUpdate(previous: StaticComponent?, current: StaticComponent) {}
 }

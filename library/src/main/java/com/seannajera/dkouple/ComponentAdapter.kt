@@ -1,29 +1,28 @@
 package com.seannajera.dkouple
 
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
-class ComponentAdapter(private val componentManager: ComponentManager) :
-    ListAdapter<Component, ComponentView<*>>(componentDiffer) {
+class ComponentAdapter(private val componentFactory: ComponentFactory) :
+    ListAdapter<Component, ComponentView<out Component>>(componentDiffer) {
 
-    private val componentLookup: SparseArray<ComponentLayout> = SparseArray()
+    private val componentLayouts: ArrayList<Int> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, layoutId: Int): ComponentView<*> {
         val view = LayoutInflater.from(parent.context)
             .inflate(layoutId, parent, false)
 
-        return componentManager.createView(componentLookup.get(layoutId), view)
+        return componentFactory.createView(layoutId, view)
     }
 
-    override fun onBindViewHolder(componentView: ComponentView<*>, position: Int) {
-        componentManager.bindView(null, getItem(position), componentView)
+    override fun onBindViewHolder(componentView: ComponentView<out Component>, position: Int) {
+        componentView.onBind(null, getItem(position))
     }
 
     override fun onBindViewHolder(
-        componentView: ComponentView<*>,
+        componentView: ComponentView<out Component>,
         position: Int,
         payloads: MutableList<Any>
     ) {
@@ -32,23 +31,23 @@ class ComponentAdapter(private val componentManager: ComponentManager) :
         } else {
             @Suppress("UNCHECKED_CAST")
             val componentState = payloads[0] as Pair<Component, Component>
-            componentManager.bindView(componentState.first, componentState.second, componentView)
+            componentView.onBind(componentState.first, componentState.second)
         }
     }
 
-    override fun getItemViewType(position: Int): Int = getItem(position).layout.layoutId()
+    override fun getItemViewType(position: Int): Int = componentLayouts[position]
 
     override fun onCurrentListChanged(
         previousComponent: MutableList<Component>,
         currentComponent: MutableList<Component>
     ) {
-        componentLookup.clear()
+        componentLayouts.clear()
         currentList.forEach {
-            componentLookup.put(it.layout.layoutId(), it.layout)
+            componentLayouts.add(it::class.annotations.filterIsInstance<DKoupleComponent>().first().layoutId)
         }
     }
 
-    fun applyComponents(components: ArrayList<out Component>) = submitList(components)
+    fun applyComponents(components: List<Component>) = submitList(components)
 
     companion object {
         val componentDiffer = object : DiffUtil.ItemCallback<Component>() {

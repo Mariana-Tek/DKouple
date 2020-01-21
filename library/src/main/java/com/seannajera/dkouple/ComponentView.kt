@@ -1,7 +1,8 @@
+@file:Suppress("unused")
+
 package com.seannajera.dkouple
 
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
 // This class should a sealed class. However, we can't use sealed classes because inherited class
@@ -12,7 +13,13 @@ abstract class ComponentView<Component : com.seannajera.dkouple.Component>(view:
 
     private var cachedComponent: Component? = null
 
-    fun onBind(previous: Component?, current: Component) {
+    @Suppress("UNCHECKED_CAST")
+    fun onBind(
+        previous: com.seannajera.dkouple.Component?,
+        current: com.seannajera.dkouple.Component
+    ) {
+        previous as Component?
+        current as Component
         onViewUpdate(previous ?: cachedComponent, current)
         cachedComponent = current
     }
@@ -20,10 +27,6 @@ abstract class ComponentView<Component : com.seannajera.dkouple.Component>(view:
     abstract fun onViewUpdate(previous: Component?, current: Component)
 }
 
-abstract class ComponentLayout {
-    @LayoutRes abstract fun layoutId(): Int
-}
-
-open class StaticView<StaticComponent : Component>(view: View) : ComponentView<StaticComponent>(view) {
-    override fun onViewUpdate(previous: StaticComponent?, current: StaticComponent) {}
+open class StaticView(view: View) : ComponentView<Component>(view) {
+    override fun onViewUpdate(previous: Component?, current: Component) {}
 }

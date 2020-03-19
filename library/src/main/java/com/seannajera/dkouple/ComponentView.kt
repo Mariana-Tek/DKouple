@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class ComponentView<Component : com.seannajera.dkouple.Component>(view: View) :
     RecyclerView.ViewHolder(view) {
 
-    private var cachedComponent: Component? = null
-
     @Suppress("UNCHECKED_CAST")
     fun onBind(
         previous: com.seannajera.dkouple.Component?,
@@ -20,8 +18,14 @@ abstract class ComponentView<Component : com.seannajera.dkouple.Component>(view:
     ) {
         previous as Component?
         current as Component
-        onViewUpdate(previous ?: cachedComponent, current)
-        cachedComponent = current
+
+        val prior = if (previous?.id == current.id) {
+            previous
+        } else {
+            null
+        }
+
+        onViewUpdate(prior, current)
     }
 
     abstract fun onViewUpdate(previous: Component?, current: Component)

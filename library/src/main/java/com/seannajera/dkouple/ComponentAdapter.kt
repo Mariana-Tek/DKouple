@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.seannajera.dkouple
 
 import android.view.LayoutInflater
@@ -9,6 +11,8 @@ class ComponentAdapter(private val componentFactory: ComponentFactory) :
     ListAdapter<Component, ComponentView<out Component>>(componentDiffer) {
 
     private val componentLayouts: ArrayList<Int> = arrayListOf()
+
+    private var actionWhenComponentsUpdate: ((List<Component>, List<Component>) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, layoutId: Int): ComponentView<*> {
         val view = LayoutInflater.from(parent.context)
@@ -45,6 +49,14 @@ class ComponentAdapter(private val componentFactory: ComponentFactory) :
         currentList.forEach {
             componentLayouts.add(it::class.annotations.filterIsInstance<DKoupleComponent>().first().layoutId)
         }
+
+        actionWhenComponentsUpdate?.invoke(previousComponent, currentComponent)
+    }
+
+    fun onComponentsUpdated(
+        actionWhenComponentsUpdate: ((List<Component>, List<Component>) -> Unit)?
+    ) {
+        this.actionWhenComponentsUpdate = actionWhenComponentsUpdate
     }
 
     fun applyComponents(components: List<Component>) = submitList(components)

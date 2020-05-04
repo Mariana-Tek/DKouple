@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private val componentFactory: ComponentFactory = MainComponentFactory()
+    private val componentFactory: ComponentFactory = ComponentFactory_DKouple_Impl()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

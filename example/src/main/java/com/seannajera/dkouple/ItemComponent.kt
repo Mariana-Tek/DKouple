@@ -3,7 +3,7 @@ package com.seannajera.dkouple
 import android.view.View
 import android.widget.TextView
 
-@DKoupleComponent(R.layout.component_item)
+@DKoupleComponent(R.layout.component_item, ItemView::class)
 data class ItemComponent(override val id: String, val name: String) : Component {
 
     override fun contentSameAs(otherComponent: Any): Boolean {
@@ -11,7 +11,8 @@ data class ItemComponent(override val id: String, val name: String) : Component 
     }
 }
 
-class ItemView(view: View) : ComponentView<ItemComponent>(view) {
+@DKoupleView
+class ItemView(@FactoryView view: View) : ComponentView<ItemComponent>(view) {
 
     private val nameView: TextView by lazy { view.findViewById<TextView>(R.id.item_component_name) }
 

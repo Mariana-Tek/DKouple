@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -38,8 +38,8 @@ dependencies {
 
     // Add DKouple Library
     implementation project(':library')
-    implementation project(':annotation')
-//    kapt project(':processor')
+    implementation project(':core')
+    kapt project(':processor')
 
     // Add Android Recyclerview modules
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

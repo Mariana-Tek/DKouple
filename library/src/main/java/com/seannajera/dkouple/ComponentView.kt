@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 // must exist in the same file, disallowing for extraction into library can make sealed class
 // after this ticket is done https://youtrack.jetbrains.com/issue/KT-13495
 abstract class ComponentView<Component : com.seannajera.dkouple.Component>(view: View) :
-    RecyclerView.ViewHolder(view) {
+    RecyclerView.ViewHolder(view), BaseView {
 
     private var cachedComponent: Component? = null
 

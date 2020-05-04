@@ -1,2 +1,2 @@
-include ':example', ':annotation', ':library' , ':processor'
+include ':example', ':core', ':library' , ':processor'
 rootProject.name='DKouple'

@@ -61,6 +61,23 @@ class ComponentAdapter(private val componentFactory: ComponentFactory) :
 
     fun applyComponents(components: List<Component>) = submitList(components)
 
+    fun updateComponent(component: Component): Boolean {
+        var isComponentInList = false
+
+        val updatedComponentList = currentList.map {
+            if (it.id == component.id) {
+                isComponentInList = true
+                return@map component
+            } else {
+                return@map it
+            }
+        }
+
+        if (isComponentInList) submitList(updatedComponentList)
+
+        return isComponentInList
+    }
+
     companion object {
         val componentDiffer = object : DiffUtil.ItemCallback<Component>() {
             override fun areItemsTheSame(

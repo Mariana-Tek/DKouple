@@ -42,5 +42,13 @@ class MainActivity : AppCompatActivity() {
             Log.i(tag, "Non existent item was updated: $nonExistentItemUpdated") // "Non existent item was updated: false"
 
         }, 5000)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+
+            componentAdapter.appendComponents(
+                listOf(ItemComponent("2", "But I am in the components now"))
+            )
+
+        }, 10000)
     }
 }

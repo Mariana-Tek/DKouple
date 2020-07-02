@@ -78,6 +78,12 @@ class ComponentAdapter(private val componentFactory: ComponentFactory) :
         return isComponentInList
     }
 
+    fun appendComponents(components: List<Component>) {
+        val updatedComponents: List<Component> = ArrayList(currentList).also { it.addAll(components) }
+
+        submitList(updatedComponents)
+    }
+
     companion object {
         val componentDiffer = object : DiffUtil.ItemCallback<Component>() {
             override fun areItemsTheSame(

@@ -1,0 +1,26 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+group='com.github.Mariana-Tek.DKouple'
+
+repositories {
+    mavenCentral()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation project(':core')
+
+    implementation 'com.squareup:kotlinpoet:1.5.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "me.eugeniomarletti.kotlin.metadata:kotlin-metadata:1.4.0"
+}

@@ -1,5 +1,5 @@
 <h1 align="center">
-    Gradle Play Publisher
+    DKouple
 </h1>
 
 DKouple is an efficient Component based view system for android RecyclerView's 
@@ -7,9 +7,9 @@ DKouple is an efficient Component based view system for android RecyclerView's
 * Automatically add your component-ized views with animation
 * Reduces boilerplate by eliminating the need for a RecyclerView.Adapter
 
-##Guide
+## Guide
 
-###Components
+### Components
 A `Component` can be considered the _state_ of a view. The `Component` holds the data in a stateless
 fashion to be consumed by a `ComponentView`
 
@@ -56,7 +56,7 @@ class ItemView(view: View) : ComponentView<ItemComponent>(view) {
 }
 ```
 
-###ComponentFactory
+### ComponentFactory
 A `ComponentFactory` must be created in order to map the `Comonent` to its `ComponentView`.
 Simply implement a `ComponentFactory` and supply the mapping of all your `Component`'s annotated
 `layoutId`'s to their corresponding `ComponentView`s
@@ -74,7 +74,7 @@ class MyComponentFactory : ComponentFactory {
 }
 ```
 
-###Reduce Boiler Plate by auto generating the ComponentFactory
+### Reduce Boiler Plate by auto generating the ComponentFactory
 Maintaining the `ComponentFactory` every time you add or remove a `Component` from your app can
 get tedious and error prone. You can eliminate the need to write the `ComponentFactory` yourself by
 using the DKouple library's annotation processor to generate a `DKoupleComponentFactory`.
@@ -142,7 +142,7 @@ class DKoupleComponentFactory(picasso: Picasso) : ComponentFactory {
 }
 ```
 
-###ComponentAdapter
+### ComponentAdapter
 Once we have created all our `Comopnent`s and the `ComponentFactory`, we can instantiate a `ComponentAdapter`
 and set it to any `RecyclerView` in our app.
 

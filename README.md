@@ -15,7 +15,7 @@ fashion to be consumed by a `ComponentView`
 
 A `ComponentView` is a [ViewHolder](https://developer.android.com/reference/androidx/recyclerview/widget/RecyclerView.ViewHolder?authuser=1)
 based view that has a 1-1 relationship with a defined `Component`. The `ComponentView` 
-renders it's sub-views in a stateless fashion using the supplied `Comonent` state.
+renders it's sub-views in a stateless fashion using the supplied `Component` state.
 
 ```kt
 // This is an example of an implemented Component class.
@@ -57,7 +57,7 @@ class ItemView(view: View) : ComponentView<ItemComponent>(view) {
 ```
 
 ### ComponentFactory
-A `ComponentFactory` must be created in order to map the `Comonent` to its `ComponentView`.
+A `ComponentFactory` must be created in order to map the `Component` to its `ComponentView`.
 Simply implement a `ComponentFactory` and supply the mapping of all your `Component`'s annotated
 `layoutId`'s to their corresponding `ComponentView`s
 
@@ -107,7 +107,7 @@ class ItemView(@FactoryView view: View) : ComponentView<ItemComponent>(view) {
 }
 ```
 
-Let's say you have a constructor dependency on a `ComonentView`. The Library will also auto generate
+Let's say you have a constructor dependency on a `ComponentView`. The Library will also auto generate
 a `ComponentAdapter` with the required constructor dependencies
 ```kt
 
